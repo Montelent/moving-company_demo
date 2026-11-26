@@ -1,6 +1,23 @@
 import Link from "next/link";
 
-export default function Footer() {
+type FooterProps = {
+  siteName?: string;
+  initials?: string;
+  phone?: string;
+  email?: string;
+  hours?: string;
+  footerTagline?: string;
+};
+
+export default function Footer({
+  siteName = "LeSeft Moving",
+  initials = "LS",
+  phone = "+1 (555) 123-4567",
+  email = "hello@leseftmoving.com",
+  hours = "Mon – Sat: 8:00 AM – 6:00 PM",
+  footerTagline =
+    "Professional moving services you can trust. From local relocations to long-distance moves, we handle your belongings with care.",
+}: FooterProps) {
   return (
     <footer className="border-t border-[var(--border)] bg-[var(--primary-dark)] text-blue-100">
       <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
@@ -8,16 +25,11 @@ export default function Footer() {
           <div>
             <div className="mb-3 flex items-center gap-2">
               <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[var(--primary-light)] text-sm font-bold text-white">
-                LS
+                {initials}
               </div>
-              <span className="text-lg font-semibold text-white">
-                LeSeft Moving
-              </span>
+              <span className="text-lg font-semibold text-white">{siteName}</span>
             </div>
-            <p className="text-sm leading-relaxed text-blue-200">
-              Professional moving services you can trust. From local relocations
-              to long-distance moves, we handle your belongings with care.
-            </p>
+            <p className="text-sm leading-relaxed text-blue-200">{footerTagline}</p>
           </div>
 
           <div>
@@ -26,25 +38,22 @@ export default function Footer() {
             </h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link href="/about" className="hover:text-white transition">
+                <Link href="/about" className="transition hover:text-white">
                   About Us
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/commodities"
-                  className="hover:text-white transition"
-                >
+                <Link href="/commodities" className="transition hover:text-white">
                   Commodities & Services
                 </Link>
               </li>
               <li>
-                <Link href="/projects" className="hover:text-white transition">
+                <Link href="/projects" className="transition hover:text-white">
                   Our Projects
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="hover:text-white transition">
+                <Link href="/contact" className="transition hover:text-white">
                   Contact
                 </Link>
               </li>
@@ -56,16 +65,16 @@ export default function Footer() {
               Contact
             </h3>
             <ul className="space-y-2 text-sm text-blue-200">
-              <li>Phone: +1 (555) 123-4567</li>
-              <li>Email: hello@leseftmoving.com</li>
-              <li>Mon – Sat: 8:00 AM – 6:00 PM</li>
+              <li>Phone: {phone}</li>
+              <li>Email: {email}</li>
+              <li>{hours}</li>
             </ul>
           </div>
         </div>
 
         <div className="mt-10 border-t border-white/10 pt-6 text-center text-xs text-blue-300">
-          © {new Date().getFullYear()} LeSeft Moving. All rights reserved.
-          Built with Next.js + Sanity.
+          © {new Date().getFullYear()} {siteName}. All rights reserved. Built
+          with Next.js + Sanity.
         </div>
       </div>
     </footer>

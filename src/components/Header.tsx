@@ -12,7 +12,15 @@ const navLinks = [
   { href: "/contact", label: "Contact" },
 ];
 
-export default function Header() {
+type HeaderProps = {
+  siteName?: string;
+  initials?: string;
+};
+
+export default function Header({
+  siteName = "LeSeft Moving",
+  initials = "LS",
+}: HeaderProps) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
@@ -21,11 +29,9 @@ export default function Header() {
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6">
         <Link href="/" className="flex items-center gap-2">
           <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[var(--primary-light)] text-lg font-bold">
-            LS
+            {initials}
           </div>
-          <span className="text-xl font-semibold tracking-tight">
-            LeSeft Moving
-          </span>
+          <span className="text-xl font-semibold tracking-tight">{siteName}</span>
         </Link>
 
         <nav className="hidden items-center gap-1 md:flex">
