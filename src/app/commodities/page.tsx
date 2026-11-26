@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { client, commoditiesPageQuery, servicesQuery } from "@/lib/sanity";
 
-export const metadata: Metadata = {
-  title: "Commodities & Services",
-};
+export const metadata: Metadata = { title: "Commodities & Services" };
 
-const services = [
+const defaultServices = [
   {
     title: "Residential Moving",
     description:
@@ -38,29 +37,42 @@ const services = [
   },
 ];
 
-export default function CommoditiesPage() {
+const defaults = {
+  eyebrow: "What We Move",
+  title: "Commodities & Services",
+  intro:
+    "From everyday household goods to specialty commodities, LeSeft Moving provides end-to-end solutions designed around your timeline and requirements.",
+  ctaTitle: "Need a custom solution?",
+  ctaDescription: "Tell us about your move and we’ll build a plan that fits.",
+  ctaButtonText: "Contact Us",
+};
+
+export default async function CommoditiesPage() {
+  const [pageData, services] = await Promise.all([
+    client.fetch(commoditiesPageQuery).catch(() => null),
+    client.fetch(servicesQuery).catch(() => null),
+  ]);
+  const c = { ...defaults, ...(pageData || {}) };
+  const list =
+    Array.isArray(services) && services.length > 0 ? services : defaultServices;
+
   return (
     <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
       <div className="mb-12 max-w-3xl">
         <p className="mb-2 text-sm font-medium uppercase tracking-widest text-[var(--primary-light)]">
-          What We Move
+          {c.eyebrow}
         </p>
-        <h1 className="mb-6 text-4xl font-bold text-[var(--primary)]">
-          Commodities & Services
-        </h1>
-        <p className="text-lg leading-relaxed text-[var(--muted)]">
-          From everyday household goods to specialty commodities, LeSeft Moving
-          provides end-to-end solutions designed around your timeline and
-          requirements.
-        </p>
+        <h1 className="mb-6 text-4xl font-bold text-[var(--primary)]">{c.title}</h1>
+        <p className="text-lg leading-relaxed text-[var(--muted)]">{c.intro}</p>
       </div>
 
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {services.map((s) => (
+        {list.map((s: { title: string; description: string; icon?: string }) => (
           <div
             key={s.title}
             className="flex flex-col rounded-xl border border-[var(--border)] bg-[var(--card)] p-6 shadow-sm transition hover:border-[var(--primary-light)] hover:shadow-md"
           >
+            {s.icon && <div className="mb-3 text-2xl">{s.icon}</div>}
             <h2 className="mb-3 text-lg font-semibold text-[var(--primary)]">
               {s.title}
             </h2>
@@ -72,15 +84,13 @@ export default function CommoditiesPage() {
       </div>
 
       <div className="mt-16 rounded-2xl bg-[var(--primary)] px-8 py-10 text-center text-white">
-        <h2 className="mb-3 text-2xl font-bold">Need a custom solution?</h2>
-        <p className="mb-6 text-blue-100">
-          Tell us about your move and we\u2019ll build a plan that fits.
-        </p>
+        <h2 className="mb-3 text-2xl font-bold">{c.ctaTitle}</h2>
+        <p className="mb-6 text-blue-100">{c.ctaDescription}</p>
         <Link
           href="/contact"
           className="inline-block rounded-lg bg-white px-6 py-3 text-sm font-semibold text-[var(--primary)] transition hover:bg-blue-50"
         >
-          Contact Us
+          {c.ctaButtonText}
         </Link>
       </div>
     </div>

@@ -1,32 +1,50 @@
 import type { Metadata } from "next";
+import { client, contactPageQuery, siteSettingsQuery } from "@/lib/sanity";
 
-export const metadata: Metadata = {
-  title: "Contact",
+export const metadata: Metadata = { title: "Contact" };
+
+const defaults = {
+  eyebrow: "Get in Touch",
+  title: "Contact Us",
+  intro:
+    "Request a free quote or ask any questions. Our team typically responds within one business day.",
+  formNote:
+    "This form is a demo. Wire it to an API or form handler as needed.",
+  sidebarTitle: "Reach Us Directly",
+  callbackTitle: "Prefer a callback?",
+  callbackText:
+    "Leave your number in the form and we’ll call you back within one business day to discuss your move.",
 };
 
-export default function ContactPage() {
+const defaultSettings = {
+  phone: "+1 (555) 123-4567",
+  email: "hello@leseftmoving.com",
+  address: "123 Moving Lane, Suite 100\nYour City, ST 00000",
+  hours: "Mon – Sat: 8:00 AM – 6:00 PM",
+};
+
+export default async function ContactPage() {
+  const [pageData, settings] = await Promise.all([
+    client.fetch(contactPageQuery).catch(() => null),
+    client.fetch(siteSettingsQuery).catch(() => null),
+  ]);
+  const c = { ...defaults, ...(pageData || {}) };
+  const s = { ...defaultSettings, ...(settings || {}) };
+
   return (
     <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
       <div className="mb-12 max-w-3xl">
         <p className="mb-2 text-sm font-medium uppercase tracking-widest text-[var(--primary-light)]">
-          Get in Touch
+          {c.eyebrow}
         </p>
-        <h1 className="mb-6 text-4xl font-bold text-[var(--primary)]">
-          Contact Us
-        </h1>
-        <p className="text-lg leading-relaxed text-[var(--muted)]">
-          Request a free quote or ask any questions. Our team typically responds
-          within one business day.
-        </p>
+        <h1 className="mb-6 text-4xl font-bold text-[var(--primary)]">{c.title}</h1>
+        <p className="text-lg leading-relaxed text-[var(--muted)]">{c.intro}</p>
       </div>
 
       <div className="grid gap-12 lg:grid-cols-2">
         <form className="space-y-5 rounded-2xl border border-[var(--border)] bg-[var(--card)] p-8 shadow-sm">
           <div>
-            <label
-              htmlFor="name"
-              className="mb-1.5 block text-sm font-medium text-[var(--primary)]"
-            >
+            <label htmlFor="name" className="mb-1.5 block text-sm font-medium text-[var(--primary)]">
               Full Name
             </label>
             <input
@@ -39,10 +57,7 @@ export default function ContactPage() {
             />
           </div>
           <div>
-            <label
-              htmlFor="email"
-              className="mb-1.5 block text-sm font-medium text-[var(--primary)]"
-            >
+            <label htmlFor="email" className="mb-1.5 block text-sm font-medium text-[var(--primary)]">
               Email
             </label>
             <input
@@ -55,10 +70,7 @@ export default function ContactPage() {
             />
           </div>
           <div>
-            <label
-              htmlFor="phone"
-              className="mb-1.5 block text-sm font-medium text-[var(--primary)]"
-            >
+            <label htmlFor="phone" className="mb-1.5 block text-sm font-medium text-[var(--primary)]">
               Phone
             </label>
             <input
@@ -70,10 +82,7 @@ export default function ContactPage() {
             />
           </div>
           <div>
-            <label
-              htmlFor="moveType"
-              className="mb-1.5 block text-sm font-medium text-[var(--primary)]"
-            >
+            <label htmlFor="moveType" className="mb-1.5 block text-sm font-medium text-[var(--primary)]">
               Move Type
             </label>
             <select
@@ -89,10 +98,7 @@ export default function ContactPage() {
             </select>
           </div>
           <div>
-            <label
-              htmlFor="message"
-              className="mb-1.5 block text-sm font-medium text-[var(--primary)]"
-            >
+            <label htmlFor="message" className="mb-1.5 block text-sm font-medium text-[var(--primary)]">
               Message
             </label>
             <textarea
@@ -109,44 +115,41 @@ export default function ContactPage() {
           >
             Send Message
           </button>
-          <p className="text-center text-xs text-[var(--muted)]">
-            This is a demo form. Wire it to an API or Sanity form handler as
-            needed.
-          </p>
+          <p className="text-center text-xs text-[var(--muted)]">{c.formNote}</p>
         </form>
 
         <div className="space-y-8">
           <div>
             <h2 className="mb-4 text-xl font-semibold text-[var(--primary)]">
-              Reach Us Directly
+              {c.sidebarTitle}
             </h2>
             <ul className="space-y-4 text-[var(--muted)]">
               <li className="flex items-start gap-3">
-                <span className="mt-0.5 text-lg">\ud83d\udcde</span>
+                <span className="mt-0.5 text-lg">📞</span>
                 <div>
                   <p className="font-medium text-[var(--primary)]">Phone</p>
-                  <p>+1 (555) 123-4567</p>
+                  <p>{s.phone}</p>
                 </div>
               </li>
               <li className="flex items-start gap-3">
-                <span className="mt-0.5 text-lg">\u2709\ufe0f</span>
+                <span className="mt-0.5 text-lg">✉️</span>
                 <div>
                   <p className="font-medium text-[var(--primary)]">Email</p>
-                  <p>hello@leseftmoving.com</p>
+                  <p>{s.email}</p>
                 </div>
               </li>
               <li className="flex items-start gap-3">
-                <span className="mt-0.5 text-lg">\ud83d\udccd</span>
+                <span className="mt-0.5 text-lg">📍</span>
                 <div>
                   <p className="font-medium text-[var(--primary)]">Office</p>
-                  <p>123 Moving Lane, Suite 100<br />Your City, ST 00000</p>
+                  <p className="whitespace-pre-line">{s.address}</p>
                 </div>
               </li>
               <li className="flex items-start gap-3">
-                <span className="mt-0.5 text-lg">\ud83d\udd50</span>
+                <span className="mt-0.5 text-lg">🕐</span>
                 <div>
                   <p className="font-medium text-[var(--primary)]">Hours</p>
-                  <p>Mon \u2013 Sat: 8:00 AM \u2013 6:00 PM</p>
+                  <p>{s.hours}</p>
                 </div>
               </li>
             </ul>
@@ -154,12 +157,9 @@ export default function ContactPage() {
 
           <div className="rounded-xl border border-[var(--border)] bg-blue-50 p-6">
             <h3 className="mb-2 font-semibold text-[var(--primary)]">
-              Prefer a callback?
+              {c.callbackTitle}
             </h3>
-            <p className="text-sm text-[var(--muted)]">
-              Leave your number in the form and we\u2019ll call you back within one
-              business day to discuss your move.
-            </p>
+            <p className="text-sm text-[var(--muted)]">{c.callbackText}</p>
           </div>
         </div>
       </div>

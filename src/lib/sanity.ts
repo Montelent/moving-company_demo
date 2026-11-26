@@ -21,21 +21,37 @@ export function urlFor(source: SanityImageSource) {
   return builder.image(source);
 }
 
-// Example GROQ queries for future use
+export const homePageQuery = `*[_type == "homePage"][0]{
+  heroEyebrow, heroTitle, heroTitleHighlight, heroDescription,
+  heroPrimaryCta, heroPrimaryCtaLink, heroSecondaryCta, heroSecondaryCtaLink,
+  featuresTitle, featuresSubtitle, features,
+  ctaTitle, ctaDescription, ctaButtonText, ctaButtonLink
+}`;
+
+export const aboutPageQuery = `*[_type == "aboutPage"][0]{
+  eyebrow, title, intro, whoWeAreTitle, whoWeAreBody, valuesTitle, values
+}`;
+
+export const commoditiesPageQuery = `*[_type == "commoditiesPage"][0]{
+  eyebrow, title, intro, ctaTitle, ctaDescription, ctaButtonText
+}`;
+
+export const projectsPageQuery = `*[_type == "projectsPage"][0]{
+  eyebrow, title, intro
+}`;
+
+export const contactPageQuery = `*[_type == "contactPage"][0]{
+  eyebrow, title, intro, formNote, sidebarTitle, callbackTitle, callbackText
+}`;
+
+export const siteSettingsQuery = `*[_type == "siteSettings"][0]{
+  siteName, title, description, phone, email, address, hours, footerTagline
+}`;
+
 export const projectsQuery = `*[_type == "project"] | order(completedAt desc) {
-  _id,
-  title,
-  "slug": slug.current,
-  category,
-  summary,
-  mainImage,
-  completedAt
+  _id, title, "slug": slug.current, category, summary, mainImage, completedAt
 }`;
 
 export const servicesQuery = `*[_type == "service"] | order(order asc) {
-  _id,
-  title,
-  "slug": slug.current,
-  description,
-  icon
+  _id, title, "slug": slug.current, description, icon
 }`;
