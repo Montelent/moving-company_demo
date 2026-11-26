@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import AppShell from "@/components/AppShell";
 import { client, siteSettingsQuery } from "@/lib/sanity";
 
 const geistSans = Geist({
@@ -38,13 +37,6 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const settings = await getSettings();
-  const siteName = settings?.siteName || "LeSeft Moving";
-  const initials = siteName
-    .split(/\s+/)
-    .map((w: string) => w[0])
-    .join("")
-    .slice(0, 2)
-    .toUpperCase();
 
   return (
     <html
@@ -52,16 +44,7 @@ export default async function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-[var(--background)] text-[var(--foreground)]">
-        <Header siteName={siteName} initials={initials} />
-        <main className="flex-1">{children}</main>
-        <Footer
-          siteName={siteName}
-          initials={initials}
-          phone={settings?.phone}
-          email={settings?.email}
-          hours={settings?.hours}
-          footerTagline={settings?.footerTagline}
-        />
+        <AppShell settings={settings}>{children}</AppShell>
       </body>
     </html>
   );
