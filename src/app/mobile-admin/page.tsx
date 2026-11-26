@@ -55,6 +55,10 @@ export default function MobileAdminPage() {
       if (!response.ok) throw new Error(data.error || "Sign in failed.");
       setAuthenticated(true);
       setPassword("");
+      const sessionResponse = await fetch("/api/mobile-admin");
+      const sessionData = await sessionResponse.json();
+      if (!sessionResponse.ok) throw new Error(sessionData.error || "Signed in, but could not load your content.");
+      if (sessionData.fields) setFields({ ...emptyFields, ...sessionData.fields });
     } catch (err) {
       setError(err instanceof Error ? err.message : "Sign in failed.");
     } finally {
