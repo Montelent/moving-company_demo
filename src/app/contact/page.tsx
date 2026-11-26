@@ -23,6 +23,9 @@ const defaultSettings = {
   hours: "Mon – Sat: 8:00 AM – 6:00 PM",
 };
 
+const inputClass =
+  "w-full rounded-lg border border-[var(--border)] bg-white px-4 py-3 text-base text-[var(--foreground)] outline-none transition focus:border-[var(--primary-light)] focus:ring-2 focus:ring-blue-100";
+
 export default async function ContactPage() {
   const [pageData, settings] = await Promise.all([
     client.fetch(contactPageQuery).catch(() => null),
@@ -42,7 +45,7 @@ export default async function ContactPage() {
       </div>
 
       <div className="grid gap-12 lg:grid-cols-2">
-        <form className="space-y-5 rounded-2xl border border-[var(--border)] bg-[var(--card)] p-8 shadow-sm">
+        <form className="space-y-5 rounded-2xl border border-[var(--border)] bg-[var(--card)] p-6 shadow-sm sm:p-8">
           <div>
             <label htmlFor="name" className="mb-1.5 block text-sm font-medium text-[var(--primary)]">
               Full Name
@@ -51,8 +54,9 @@ export default async function ContactPage() {
               id="name"
               name="name"
               type="text"
+              autoComplete="name"
               required
-              className="w-full rounded-lg border border-[var(--border)] px-4 py-2.5 text-sm outline-none transition focus:border-[var(--primary-light)] focus:ring-2 focus:ring-blue-100"
+              className={inputClass}
               placeholder="Jane Doe"
             />
           </div>
@@ -64,8 +68,10 @@ export default async function ContactPage() {
               id="email"
               name="email"
               type="email"
+              inputMode="email"
+              autoComplete="email"
               required
-              className="w-full rounded-lg border border-[var(--border)] px-4 py-2.5 text-sm outline-none transition focus:border-[var(--primary-light)] focus:ring-2 focus:ring-blue-100"
+              className={inputClass}
               placeholder="jane@example.com"
             />
           </div>
@@ -77,7 +83,9 @@ export default async function ContactPage() {
               id="phone"
               name="phone"
               type="tel"
-              className="w-full rounded-lg border border-[var(--border)] px-4 py-2.5 text-sm outline-none transition focus:border-[var(--primary-light)] focus:ring-2 focus:ring-blue-100"
+              inputMode="tel"
+              autoComplete="tel"
+              className={inputClass}
               placeholder="+1 (555) 000-0000"
             />
           </div>
@@ -85,11 +93,7 @@ export default async function ContactPage() {
             <label htmlFor="moveType" className="mb-1.5 block text-sm font-medium text-[var(--primary)]">
               Move Type
             </label>
-            <select
-              id="moveType"
-              name="moveType"
-              className="w-full rounded-lg border border-[var(--border)] px-4 py-2.5 text-sm outline-none transition focus:border-[var(--primary-light)] focus:ring-2 focus:ring-blue-100"
-            >
+            <select id="moveType" name="moveType" className={inputClass}>
               <option>Residential</option>
               <option>Commercial</option>
               <option>Long Distance</option>
@@ -105,13 +109,13 @@ export default async function ContactPage() {
               id="message"
               name="message"
               rows={4}
-              className="w-full rounded-lg border border-[var(--border)] px-4 py-2.5 text-sm outline-none transition focus:border-[var(--primary-light)] focus:ring-2 focus:ring-blue-100"
+              className={inputClass}
               placeholder="Tell us about your move, dates, and any special requirements..."
             />
           </div>
           <button
             type="submit"
-            className="w-full rounded-lg bg-[var(--primary)] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[var(--primary-light)]"
+            className="w-full rounded-lg bg-[var(--primary)] px-6 py-3.5 text-base font-semibold text-white transition hover:bg-[var(--primary-light)]"
           >
             Send Message
           </button>
