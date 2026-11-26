@@ -1,5 +1,7 @@
 "use client";
 
+import "./mobile-admin.css";
+
 import { FormEvent, useEffect, useState } from "react";
 
 type Fields = {
@@ -29,9 +31,13 @@ export default function MobileAdminPage() {
 
   useEffect(() => {
     fetch("/api/mobile-admin")
-      .then((response) => response.json())
-      .then((data) => setAuthenticated(Boolean(data.authenticated)))
-      .catch(() => setError("Unable to check your session. Refresh and try again."))
+      .then(async (response) => {
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || "Unable to check your session.");
+        setAuthenticated(Boolean(data.authenticated));
+        if (data.authenticated && data.fields) setFields({ ...emptyFields, ...data.fields });
+      })
+      .catch((err) => setError(err instanceof Error ? err.message : "Unable to check your session. Refresh and try again."))
       .finally(() => setChecking(false));
   }, []);
 
