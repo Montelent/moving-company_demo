@@ -6,13 +6,19 @@ export const siteSettings = defineType({
   type: "document",
   fields: [
     defineField({
+      name: "siteName",
+      title: "Site / Company Name",
+      type: "string",
+      initialValue: "LeSeft Moving",
+    }),
+    defineField({
       name: "title",
-      title: "Site Title",
+      title: "Browser Tab Title",
       type: "string",
     }),
     defineField({
       name: "description",
-      title: "Site Description",
+      title: "Site Description (SEO)",
       type: "text",
       rows: 3,
     }),
@@ -32,5 +38,20 @@ export const siteSettings = defineType({
       type: "text",
       rows: 2,
     }),
+    defineField({
+      name: "hours",
+      title: "Business Hours",
+      type: "string",
+      initialValue: "Mon – Sat: 8:00 AM – 6:00 PM",
+    }),
+    defineField({
+      name: "footerTagline",
+      title: "Footer Tagline",
+      type: "text",
+      rows: 2,
+    }),
   ],
+  preview: {
+    prepare: () => ({ title: "Site Settings" }),
+  },
 });
