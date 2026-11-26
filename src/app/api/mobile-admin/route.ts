@@ -124,5 +124,25 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET() {
-  return NextResponse.json({ authenticated: await requireSession() });
+  try {
+    if (!(await requireSession())) return NextResponse.json({ authenticated: false });
+    const client = sanityClient();
+    const [settings, home] = await Promise.all([
+      client.fetch<{ siteName?: string; phone?: string } | null>('*[_type == "siteSettings"][0]{siteName, phone}'),
+      client.fetch<{ heroTitle?: string; heroTitleHighlight?: string; heroDescription?: string } | null>('*[_type == "homePage"][0]{heroTitle, heroTitleHighlight, heroDescription}'),
+    ]);
+    return NextResponse.json({
+      authenticated: true,
+      fields: {
+        siteName: settings?.siteName || "",
+        phone: settings?.phone || "",
+        heroTitle: home?.heroTitle || "",
+        heroTitleHighlight: home?.heroTitleHighlight || "",
+        heroDescription: home?.heroDescription || "",
+      },
+    });
+  } catch (error) {
+    console.error("Mobile admin session check failed", error);
+    return NextResponse.json({ authenticated: false, error: "Mobile editor is not configured correctly." }, { status: 503 });
+  }
 }
