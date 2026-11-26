@@ -1,0 +1,21 @@
+
+.mobile-admin{min-height:100svh;background:#f6f7f8;color:#17212b;padding:28px 18px 48px;font-family:Arial,Helvetica,sans-serif}
+.mobile-admin__top{max-width:620px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.mobile-admin__eyebrow{font-size:11px;letter-spacing:.16em;font-weight:700;color:#66717d}
+.mobile-admin h1{font-size:clamp(26px,7vw,36px);line-height:1.12;margin:8px 0 0}
+.mobile-admin__intro,.mobile-admin__foot{max-width:620px;margin:16px auto;color:#596572;line-height:1.6;font-size:15px}
+.mobile-admin__panel{max-width:620px;margin:24px auto;background:#fff;border:1px solid #e0e5e9;border-radius:18px;padding:22px;box-shadow:0 8px 28px rgba(20,35,50,.06)}
+.mobile-admin__panel h2{font-size:20px;margin:0 0 8px}
+.mobile-admin__hint{font-size:13px;line-height:1.5;color:#687582;margin:0 0 20px}
+.mobile-admin label{display:block;font-weight:650;font-size:14px;margin:18px 0 8px}
+.mobile-admin input,.mobile-admin textarea{display:block;width:100%;font:inherit;font-size:16px;line-height:1.4;color:#17212b;background:#fff;border:1px solid #cbd3da;border-radius:10px;padding:14px;min-height:50px;outline-offset:2px}
+.mobile-admin textarea{resize:vertical;min-height:112px}
+.mobile-admin input:focus,.mobile-admin textarea:focus{border-color:#263f56;outline:2px solid rgba(38,63,86,.14)}
+.mobile-admin__submit{width:100%;min-height:52px;margin-top:22px;border:0;border-radius:11px;background:#172f45;color:white;font-size:16px;font-weight:700;padding:14px;cursor:pointer}
+.mobile-admin__submit:disabled{opacity:.65;cursor:wait}
+.mobile-admin__quiet{border:1px solid #cbd3da;background:white;border-radius:9px;padding:10px 13px;font-weight:600;color:#263442}
+.mobile-admin__error,.mobile-admin__success{font-size:14px;line-height:1.5;padding:12px;border-radius:9px;margin:14px 0 0}
+.mobile-admin__error{background:#fff0ef;color:#a32920}
+.mobile-admin__success{background:#eaf7ef;color:#17683b}
+.mobile-admin__foot a{color:#173d5b;text-decoration:underline}
+@media(min-width:700px){.mobile-admin{padding-top:56px}.mobile-admin__panel{padding:30px}}
