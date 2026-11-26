@@ -106,3 +106,16 @@ sanity.config.ts
 ## License
 
 MIT — demo project for educational / portfolio use.
+
+
+## Phone-friendly content editing
+
+The full Sanity Studio remains available at `/studio`. For quick edits from an Android phone, use `/mobile-admin`, a touch-friendly editor for the company name, business phone, and homepage hero copy.
+
+Configure these server-side environment variables in Vercel before using the mobile editor:
+
+- `MOBILE_ADMIN_PASSWORD`: a long, unique password for the mobile editor.
+- `MOBILE_ADMIN_SESSION_SECRET`: a cryptographically random secret (at least 32 characters) used to sign the secure session cookie.
+- `SANITY_API_TOKEN`: a Sanity API token with permission to edit the dataset. Never expose this token with a `NEXT_PUBLIC_` prefix.
+
+The editor reads the current values after sign-in and publishes only the supported fields. The session cookie is HTTP-only, SameSite strict, and expires after seven days. Use the full Studio on a desktop for rich text, images, arrays, and other advanced editing.
